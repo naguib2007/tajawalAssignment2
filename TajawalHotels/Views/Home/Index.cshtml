@@ -1,0 +1,207 @@
+﻿<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.tablesorter.js"></script>
+<script src="~/Scripts/jquery.tablesorter.widgets.js"></script>
+<script>
+    var apiUrl = '/api/Hotels/GetAllHotels';
+    $(document).ready(function () {
+        $(function () {
+
+            $("#hotels").tablesorter({
+                headers: {
+                    0: {
+                        sorter: true
+                    },
+                    1: {
+                        sorter: true
+                    },
+                    2: {
+                        sorter:true
+                    },
+                    3: {
+                        sorter: false
+                    }
+                }
+            });
+
+        });
+        // Send an AJAX request
+        $.getJSON(apiUrl)
+            .done(function (data) {
+                DisplayData(data);
+           
+            });
+
+
+
+        //serach 
+
+
+        $("#btnSearch").click(function () {
+
+            var searchModel = new Object();
+            searchModel.name = $('#txtName').val();
+            searchModel.city = $('#txtCity').val();
+            searchModel.priceFrom = $('#txtPriceFrom').val();
+            searchModel.priceTo = $('#txtPriceTo').val();
+            searchModel.dateFrom = $('#dtFrom').val();
+            searchModel.dateTo = $('#ftTo').val();
+
+            $.ajax({
+                url: '/api/Hotels/GetFilteredHotels',
+                type: 'POST',
+                dataType: 'json',
+                data: searchModel,
+                success: function (data, textStatus, xhr) {
+                    //if (data.length>0) {
+                    $("#hotels").find("tbody").empty();
+                    DisplayData(data);
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    console.log('Error in Operation');
+                }
+            });
+
+
+        });
+
+     
+    });
+
+
+    // functions 
+    function DisplayData(data) {
+
+        $.each(data, function (key, item) {
+            // Add a list item for the product.
+            formatItem(item, data.indexOf(item) + 1);
+        });
+
+        $("#hotels").trigger("update");
+    };
+    function formatItem(item, index) {
+      
+        $('#hotels > tbody:last-child').append(
+            '<tr>'// need to change closing tag to an opening `<tr>` tag.
+            + '<td>' + index + '</td>'
+            + '<td>' + item.name + '</td>'
+            + '<td>' + item.price + '</td>'
+            + formatAvailablility(item.availability)
+            + '</tr>');
+
+    }
+    function formatAvailablility(data) {
+
+
+        var draw = '<td> <table class="table"> <tr><th> From</th>  <th> To </th> </tr >';
+        var drawFromTo = '';
+        for (var i = 0; i < data.length; i++) {
+            drawFromTo = drawFromTo + '<tr>'
+                + '<td>' + formatdate(data[i].from) + '</td>'
+                + '<td>' + formatdate(data[i].to)+ '</td>';
+                + '</tr>';
+
+        }
+
+        draw = draw + drawFromTo +'</table></td>';
+        return draw;
+    }
+    function formatdate(date) {
+
+        var date = new Date(date);
+        return date.getDate()+ '-' + (date.getMonth() + 1) + '-' + date.getFullYear();
+    }
+    //
+
+
+</script>
+
+
+<div class="jumbotron">
+    <div class="form-horizontal">
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="txtName">Hotel Name</label>
+            <div class="col-md-10">
+                <input type="text" class="form-control" id="txtName" />
+          
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="txtCity">Destination</label>
+            <div class="col-md-10">
+                <input type="text" class="form-control" id="txtCity" />
+
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2" >Price from </label>
+            <div class="col-sm-10">
+                <input type="number" class="form-control"  id="txtPriceFrom" min="0" step=".1" />
+              
+
+
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Price to </label>
+            <div class="col-sm-10">
+                <input type="number" class="form-control" id="txtPriceTo" min="0" step=".1" />
+
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Date From </label>
+            <div class="col-md-10">
+                <input type="date" class="form-control" id="dtFrom" />
+
+
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Date To </label>
+            <div class="col-md-10">
+                <input type="date" class="form-control" id="ftTo" />
+
+
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" value="Search" class="btn btn-default" id="btnSearch" />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <table class="table tablesorter" id="hotels">
+        <thead>
+            <tr>
+                <th>
+                    index
+                </th>
+                <th data-field="Name" data-sortable="true">
+
+                    Name
+                </th>
+                <th>
+                    Price
+                </th>
+                <th>
+                    Availability
+                </th>
+
+            </tr>
+            </thead>
+        <tbody>
+
+
+        </tbody>
+       
+
+</table>
+</div>
