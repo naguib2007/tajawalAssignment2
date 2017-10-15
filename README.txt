@@ -7,6 +7,9 @@ Tajawal Assignment Ahmed Naguib
 3-models contains Hotel Model that contains all classes used in desrialize json returned from api 
 4- models folder contains also searchmodel that fill all filter parametres 
 5-view for Hotels in Index.cshtml 
-6 using jquery and ajax to getall data 
+6-using jquery and ajax to getall data 
+7-travis stataus https://travis-ci.org/naguib2007/tajawalAssignment2.svg?branch=master
+8-project developed in visual studio 2017 
+9-two projects (TajawalHotels(api) ,TajawalHotels.tests)
 
 
