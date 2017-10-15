@@ -11,5 +11,5 @@ Tajawal Assignment Ahmed Naguib
 7-travis stataus https://travis-ci.org/naguib2007/tajawalAssignment2.svg?branch=master
 8-project developed in visual studio 2017 
 9-two projects (TajawalHotels(api) ,TajawalHotels.tests)
-
+10-using for unit test visual studio code coverage 
 
