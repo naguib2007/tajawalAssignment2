@@ -1,16 +1,16 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TajawalHotels.Controllers;
 using TajawalHotels.Models;
 using System.Collections.Generic;
 using TajawalHotels.BL;
+using NUnit.Framework;
 
 namespace TajawalHotels.Tests.Controllers
 {
-    [TestClass]
+    [TestFixture]
     public class HotelsControllerTest
     {
-        [TestMethod]
+        [Test]
         public void GetHotels_ReturnAll()
         {
           var TestedHotels=  GetTestHotels();
@@ -20,10 +20,10 @@ namespace TajawalHotels.Tests.Controllers
             Assert.AreEqual(TestedHotels.Count, result.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void GetHotels_FilterationName()
         {
-           // var TestedHotels = GetTestHotels();
+            new HotelsController().GetAllHotels();
             var controller = new HotelsController();
             var searchModel = new SearchModel
             {
@@ -34,10 +34,10 @@ namespace TajawalHotels.Tests.Controllers
             var result = controller.GetFilteredHotels(searchModel) as List<Hotel>;
             Assert.AreEqual(1, result.Count);
         }
-        [TestMethod]
+        [Test]
         public void GetHotels_FilterationCity()
         {
-           // var TestedHotels = GetTestHotels();
+            new HotelsController().GetAllHotels();
             var controller = new HotelsController();
             var searchModel = new SearchModel
             {
@@ -48,10 +48,10 @@ namespace TajawalHotels.Tests.Controllers
             var result = controller.GetFilteredHotels(searchModel) as List<Hotel>;
             Assert.AreEqual(1, result.Count);
         }
-        [TestMethod]
+        [Test]
         public void GetHotels_FilterationFromPrice()
         {
-          //  var TestedHotels = GetTestHotels();
+            new HotelsController().GetAllHotels();
             var controller = new HotelsController();
             var searchModel = new SearchModel
             {
@@ -62,10 +62,10 @@ namespace TajawalHotels.Tests.Controllers
             var result = controller.GetFilteredHotels(searchModel) as List<Hotel>;
             Assert.AreEqual(1, result.Count);
         }
-        [TestMethod]
+        [Test]
         public void GetHotels_FilterationtoPrice()
         {
-            var TestedHotels = GetTestHotels();
+            var TestedHotels = new HotelsController().GetAllHotels() as List<Hotel>;
             var controller = new HotelsController();
             var searchModel = new SearchModel
             {
@@ -77,10 +77,10 @@ namespace TajawalHotels.Tests.Controllers
             Assert.AreEqual(TestedHotels.Count, result.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void GetHotels_FilterationFromdate()
         {
-             var TestedHotels = GetTestHotels();
+             var TestedHotels = new HotelsController().GetAllHotels() as List<Hotel>;
             var controller = new HotelsController();
             var searchModel = new SearchModel
             {
@@ -91,10 +91,10 @@ namespace TajawalHotels.Tests.Controllers
             var result = controller.GetFilteredHotels(searchModel) as List<Hotel>;
             Assert.AreEqual(TestedHotels.Count, result.Count);
         }
-        [TestMethod]
+        [Test]
         public void GetHotels_FilterationtoDate()
         {
-            var TestedHotels = GetTestHotels();
+            var TestedHotels = new HotelsController().GetAllHotels() as List<Hotel>;
             var controller = new HotelsController();
             var searchModel = new SearchModel
             {
